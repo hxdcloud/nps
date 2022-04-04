@@ -1,9 +1,10 @@
+//go:build windows
 // +build windows
 
 package proxy
 
 import (
-	"ehang.io/nps/lib/conn"
+	"hxdcloud/nps/lib/conn"
 )
 
 func HandleTrans(c *conn.Conn, s *TunnelModeServer) error {

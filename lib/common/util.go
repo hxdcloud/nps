@@ -2,12 +2,12 @@ package common
 
 import (
 	"bytes"
-	"ehang.io/nps/lib/version"
 	"encoding/base64"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"html/template"
+	"hxdcloud/nps/lib/version"
 	"io"
 	"io/ioutil"
 	"net"
@@ -18,7 +18,7 @@ import (
 	"strings"
 	"sync"
 
-	"ehang.io/nps/lib/crypt"
+	"hxdcloud/nps/lib/crypt"
 )
 
 //Get the corresponding IP address through domain name

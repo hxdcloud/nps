@@ -1,8 +1,8 @@
 package server
 
 import (
-	"ehang.io/nps/lib/version"
 	"errors"
+	"hxdcloud/nps/lib/version"
 	"math"
 	"os"
 	"strconv"
@@ -10,17 +10,17 @@ import (
 	"sync"
 	"time"
 
-	"ehang.io/nps/bridge"
-	"ehang.io/nps/lib/common"
-	"ehang.io/nps/lib/file"
-	"ehang.io/nps/server/proxy"
-	"ehang.io/nps/server/tool"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/load"
 	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/shirou/gopsutil/v3/net"
+	"hxdcloud/nps/bridge"
+	"hxdcloud/nps/lib/common"
+	"hxdcloud/nps/lib/file"
+	"hxdcloud/nps/server/proxy"
+	"hxdcloud/nps/server/tool"
 )
 
 var (

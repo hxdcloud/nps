@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"ehang.io/nps/web/controllers"
 	"github.com/astaxie/beego"
+	"hxdcloud/nps/web/controllers"
 )
 
 func Init() {

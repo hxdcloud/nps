@@ -6,8 +6,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"ehang.io/nps/lib/rate"
 	"github.com/pkg/errors"
+	"hxdcloud/nps/lib/rate"
 )
 
 type Flow struct {

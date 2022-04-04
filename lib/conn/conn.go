@@ -3,11 +3,11 @@ package conn
 import (
 	"bufio"
 	"bytes"
-	"ehang.io/nps/lib/goroutine"
 	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"github.com/astaxie/beego/logs"
+	"hxdcloud/nps/lib/goroutine"
 	"io"
 	"net"
 	"net/http"
@@ -17,12 +17,12 @@ import (
 	"sync"
 	"time"
 
-	"ehang.io/nps/lib/common"
-	"ehang.io/nps/lib/crypt"
-	"ehang.io/nps/lib/file"
-	"ehang.io/nps/lib/pmux"
-	"ehang.io/nps/lib/rate"
 	"github.com/xtaci/kcp-go"
+	"hxdcloud/nps/lib/common"
+	"hxdcloud/nps/lib/crypt"
+	"hxdcloud/nps/lib/file"
+	"hxdcloud/nps/lib/pmux"
+	"hxdcloud/nps/lib/rate"
 )
 
 type Conn struct {

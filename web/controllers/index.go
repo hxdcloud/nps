@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"ehang.io/nps/lib/file"
-	"ehang.io/nps/server"
-	"ehang.io/nps/server/tool"
+	"hxdcloud/nps/lib/file"
+	"hxdcloud/nps/server"
+	"hxdcloud/nps/server/tool"
 
 	"github.com/astaxie/beego"
 )

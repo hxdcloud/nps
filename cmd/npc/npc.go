@@ -1,17 +1,17 @@
 package main
 
 import (
-	"ehang.io/nps/client"
-	"ehang.io/nps/lib/common"
-	"ehang.io/nps/lib/config"
-	"ehang.io/nps/lib/file"
-	"ehang.io/nps/lib/install"
-	"ehang.io/nps/lib/version"
 	"flag"
 	"fmt"
 	"github.com/astaxie/beego/logs"
 	"github.com/ccding/go-stun/stun"
 	"github.com/kardianos/service"
+	"hxdcloud/nps/client"
+	"hxdcloud/nps/lib/common"
+	"hxdcloud/nps/lib/config"
+	"hxdcloud/nps/lib/file"
+	"hxdcloud/nps/lib/install"
+	"hxdcloud/nps/lib/version"
 	"os"
 	"os/exec"
 	"runtime"

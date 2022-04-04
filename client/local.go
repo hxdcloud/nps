@@ -1,22 +1,22 @@
 package client
 
 import (
-	"ehang.io/nps-mux"
 	"errors"
+	"hxdcloud/nps-mux"
 	"net"
 	"net/http"
 	"runtime"
 	"sync"
 	"time"
 
-	"ehang.io/nps/lib/common"
-	"ehang.io/nps/lib/config"
-	"ehang.io/nps/lib/conn"
-	"ehang.io/nps/lib/crypt"
-	"ehang.io/nps/lib/file"
-	"ehang.io/nps/server/proxy"
 	"github.com/astaxie/beego/logs"
 	"github.com/xtaci/kcp-go"
+	"hxdcloud/nps/lib/common"
+	"hxdcloud/nps/lib/config"
+	"hxdcloud/nps/lib/conn"
+	"hxdcloud/nps/lib/crypt"
+	"hxdcloud/nps/lib/file"
+	"hxdcloud/nps/server/proxy"
 )
 
 var (
