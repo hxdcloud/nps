@@ -1,8 +1,8 @@
 package client
 
 import (
+	"ehang.io/nps-mux"
 	"errors"
-	"hxdcloud/nps-mux"
 	"net"
 	"net/http"
 	"runtime"

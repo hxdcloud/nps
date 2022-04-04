@@ -1,4 +1,4 @@
-module ehang.io/nps
+module hxdcloud/nps
 
 go 1.15
 
