@@ -11,16 +11,16 @@ go get -u fyne.io/fyne/v2/cmd/fyne fyne.io/fyne/v2
 #go install -v ./cmd/fyne
 #fyne package -os android fyne.io/fyne/cmd/hello
 echo "fyne install success"
-mkdir -p /go/src/ehang.io/nps
-cp -R /app/* /go/src/ehang.io/nps
-cd /go/src/ehang.io/nps
+mkdir -p /go/src/hxdcloud/nps
+cp -R /app/* /go/src/hxdcloud/nps
+cd /go/src/hxdcloud/nps
 #go get -u fyne.io/fyne fyne.io/fyne/cmd/fyne
 rm cmd/npc/sdk.go
 #go get -u ./...
 #go mod tidy
 #rm -rf /go/src/golang.org/x/mobile
 echo "tidy success"
-cd /go/src/ehang.io/nps
+cd /go/src/hxdcloud/nps
 go mod vendor
 cd vendor
 cp -R * /go/src
