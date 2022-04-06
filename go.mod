@@ -13,12 +13,13 @@ require (
 	github.com/golang/snappy v0.0.3
 	github.com/hooklift/assert v0.0.0-20170704181755-9d1defd6d214 // indirect
 	github.com/kardianos/service v1.2.0
-	github.com/klauspost/cpuid v1.3.1 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.6 // indirect
 	github.com/klauspost/pgzip v1.2.1 // indirect
 	github.com/klauspost/reedsolomon v1.9.12 // indirect
+	github.com/minio/minio-go/v7 v7.0.23
 	github.com/panjf2000/ants/v2 v2.4.2
 	github.com/pkg/errors v0.9.1
+	github.com/robfig/cron v1.2.0
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	github.com/shirou/gopsutil/v3 v3.21.3
 	github.com/templexxx/cpufeat v0.0.0-20180724012125-cef66df7f161 // indirect

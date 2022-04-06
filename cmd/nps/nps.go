@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"flag"
+	"github.com/minio/minio-go/v7"
 	"log"
 	"os"
 	"os/exec"
@@ -25,6 +27,8 @@ import (
 	"hxdcloud/nps/lib/daemon"
 
 	"github.com/kardianos/service"
+	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/robfig/cron"
 )
 
 var (
@@ -151,6 +155,10 @@ func main() {
 			return
 		}
 	}
+
+	// 定时备份任务
+	backUpConf()
+
 	_ = s.Run()
 }
 
@@ -210,4 +218,63 @@ func run() {
 		timeout = 60
 	}
 	go server.StartNewServer(bridgePort, task, beego.AppConfig.String("bridge_type"), timeout)
+}
+
+func backUpConf() {
+	c := cron.New()
+	c.AddFunc("0 * * * *", func() {
+		log.Println("start back up conf...")
+		backUpToMinio()
+	})
+	c.Start()
+}
+
+func backUpToMinio() {
+	minioUrl := beego.AppConfig.String("minio_url")
+	accessKeyID := beego.AppConfig.String("minio_access_key_id")
+	secretAccessKey := beego.AppConfig.String("minio_secret_access_key")
+	bucketName := beego.AppConfig.String("minio_bucket")
+	minioDir := beego.AppConfig.String("minio_dir")
+	conf := filepath.Join(common.GetRunPath(), "conf", "nps.conf")
+	clients := filepath.Join(common.GetRunPath(), "conf", "clients.json")
+	hosts := filepath.Join(common.GetRunPath(), "conf", "hosts.json")
+	tasks := filepath.Join(common.GetRunPath(), "conf", "tasks.json")
+
+	ctx := context.Background()
+	endpoint := minioUrl
+	useSSL := true
+
+	// Initialize minio client object.
+	minioClient, err := minio.New(endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
+		Secure: useSSL,
+	})
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	info1, err1 := minioClient.FPutObject(ctx, bucketName, minioDir+"/nps.conf", conf, minio.PutObjectOptions{ContentType: "application/conf"})
+	if err1 != nil {
+		log.Fatalln(err1)
+	}
+	log.Printf("Successfully uploaded %s of size %d\n", "nps.conf", info1.Size)
+
+	info2, err2 := minioClient.FPutObject(ctx, bucketName, minioDir+"/clients.json", clients, minio.PutObjectOptions{ContentType: "application/json"})
+	if err1 != nil {
+		log.Fatalln(err2)
+	}
+	log.Printf("Successfully uploaded %s of size %d\n", "clients.conf", info2.Size)
+
+	info3, err3 := minioClient.FPutObject(ctx, bucketName, minioDir+"/hosts.json", hosts, minio.PutObjectOptions{ContentType: "application/json"})
+	if err1 != nil {
+		log.Fatalln(err3)
+	}
+	log.Printf("Successfully uploaded %s of size %d\n", "hosts.conf", info3.Size)
+
+	info4, err4 := minioClient.FPutObject(ctx, bucketName, minioDir+"/tasks.json", tasks, minio.PutObjectOptions{ContentType: "application/json"})
+	if err1 != nil {
+		log.Fatalln(err4)
+	}
+	log.Printf("Successfully uploaded %s of size %d\n", "tasks.conf", info4.Size)
+
 }

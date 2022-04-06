@@ -8,10 +8,7 @@ import (
 	"github.com/kardianos/service"
 	"hxdcloud/nps/client"
 	"hxdcloud/nps/lib/common"
-	"hxdcloud/nps/lib/config"
-	"hxdcloud/nps/lib/file"
 	"hxdcloud/nps/lib/install"
-	"hxdcloud/nps/lib/version"
 	"os"
 	"os/exec"
 	"runtime"
@@ -203,24 +200,16 @@ func (p *npc) run() error {
 	return nil
 }
 
+func StartClientByAddrAndVerifyKey(serverAddr, verifyKey string) {
+	for {
+		client.NewRPClient(serverAddr, verifyKey, "tcp", "", nil, *disconnectTime).Start()
+		logs.Info("Client closed! It will be reconnected in five seconds")
+		time.Sleep(time.Second * 5)
+	}
+}
+
 func run() {
 	common.InitPProfFromArg(*pprofAddr)
-	//p2p or secret command
-	if *password != "" {
-		commonConfig := new(config.CommonConfig)
-		commonConfig.Server = *serverAddr
-		commonConfig.VKey = *verifyKey
-		commonConfig.Tp = *connType
-		localServer := new(config.LocalServer)
-		localServer.Type = *localType
-		localServer.Password = *password
-		localServer.Target = *target
-		localServer.Port = *localPort
-		commonConfig.Client = new(file.Client)
-		commonConfig.Client.Cnf = new(file.Config)
-		go client.StartLocalServer(localServer, commonConfig)
-		return
-	}
 	env := common.GetEnvMap()
 	if *serverAddr == "" {
 		*serverAddr, _ = env["NPC_SERVER_ADDR"]
@@ -228,19 +217,51 @@ func run() {
 	if *verifyKey == "" {
 		*verifyKey, _ = env["NPC_SERVER_VKEY"]
 	}
-	logs.Info("the version of client is %s, the core version of client is %s", version.VERSION, version.GetVersion())
-	if *verifyKey != "" && *serverAddr != "" && *configPath == "" {
-		go func() {
-			for {
-				client.NewRPClient(*serverAddr, *verifyKey, *connType, *proxyUrl, nil, *disconnectTime).Start()
-				logs.Info("Client closed! It will be reconnected in five seconds")
-				time.Sleep(time.Second * 5)
-			}
-		}()
-	} else {
-		if *configPath == "" {
-			*configPath = common.GetConfigPath()
+	if *verifyKey != "" && *serverAddr != "" {
+		serverAddrList := strings.Split(*serverAddr, ",")
+		for _, value := range serverAddrList {
+			go StartClientByAddrAndVerifyKey(value, *verifyKey)
 		}
-		go client.StartFromFile(*configPath)
+
 	}
+
+	//common.InitPProfFromArg(*pprofAddr)
+	////p2p or secret command
+	//if *password != "" {
+	//	commonConfig := new(config.CommonConfig)
+	//	commonConfig.Server = *serverAddr
+	//	commonConfig.VKey = *verifyKey
+	//	commonConfig.Tp = *connType
+	//	localServer := new(config.LocalServer)
+	//	localServer.Type = *localType
+	//	localServer.Password = *password
+	//	localServer.Target = *target
+	//	localServer.Port = *localPort
+	//	commonConfig.Client = new(file.Client)
+	//	commonConfig.Client.Cnf = new(file.Config)
+	//	go client.StartLocalServer(localServer, commonConfig)
+	//	return
+	//}
+	//env := common.GetEnvMap()
+	//if *serverAddr == "" {
+	//	*serverAddr, _ = env["NPC_SERVER_ADDR"]
+	//}
+	//if *verifyKey == "" {
+	//	*verifyKey, _ = env["NPC_SERVER_VKEY"]
+	//}
+	//logs.Info("the version of client is %s, the core version of client is %s", version.VERSION, version.GetVersion())
+	//if *verifyKey != "" && *serverAddr != "" && *configPath == "" {
+	//	go func() {
+	//		for {
+	//			client.NewRPClient(*serverAddr, *verifyKey, *connType, *proxyUrl, nil, *disconnectTime).Start()
+	//			logs.Info("Client closed! It will be reconnected in five seconds")
+	//			time.Sleep(time.Second * 5)
+	//		}
+	//	}()
+	//} else {
+	//	if *configPath == "" {
+	//		*configPath = common.GetConfigPath()
+	//	}
+	//	go client.StartFromFile(*configPath)
+	//}
 }
