@@ -114,7 +114,7 @@ install_npc() {
         rm /root/hxdcloud/npc/ -rf
     fi
     mkdir -p /root/hxdcloud/npc && cd /root/hxdcloud/npc
-    wget -N --no-check-certificate -O /root/hxdcloud/npc/npc.tar.gz https://download.fastgit.org/hxdcloud/nps/releases/download/v0.26.10/linux_${arch}_client.tar.gz
+    wget -N --no-check-certificate -O /root/hxdcloud/npc/npc.tar.gz https://nps.hxdcloud.com/linux_${arch}_client.tar.gz
     if [[ ! -e /root/hxdcloud/npc/npc.tar.gz ]]; then
         echo "下载失败，请联系脚本作者！"  && exit 1
     fi
