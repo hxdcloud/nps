@@ -221,8 +221,9 @@ func run() {
 }
 
 func backUpConf() {
+	minioCron := beego.AppConfig.String("minio_cron")
 	c := cron.New()
-	c.AddFunc("0 * * * *", func() {
+	c.AddFunc(minioCron, func() {
 		log.Println("start back up conf...")
 		backUpToMinio()
 	})
